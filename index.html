@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- HEY DU! Hallo und herzlich willkommen im Quelltext! Hier gibt's einiges zu sehen, schau dich ruhig um :) -->
+<!-- PS: Dieser Quelltext ist allein mit dem Wissen aus WebEngineering I definitiv nicht realisierbar ;) -->
+<title>DHBW-AI-Semester1-KeyWordPiano</title>
+<style>
+/* CSS-Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+ form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+:focus {
+	outline: 0;
+}
+body {
+	line-height: 1;
+	color: black;
+	background: white;
+	text-align:center;
+}
+ol, ul {
+	list-style: none;
+}
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+}
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: "";
+}
+blockquote, q {
+	quotes: "" "";
+}
+/* ENDE CSS Reset */
+body
+{
+	box-sizing:content-box;
+	font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+	font-size:32pt;
+	overflow:hidden;
+	background:url(dhbw.svg) no-repeat center center fixed; /* relevant topics: Vektorgraphiken und XML :D */
+	background-size:100% 100%;
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+#infotitle
+{
+	font-size:12pt;
+	font-style:italic;
+	z-index:42;
+	position:fixed;
+	overflow: visible;
+	text-align:center;
+	width:100%;
+	top:0px;
+	left:0px;
+}
+.bubbleword
+{
+	position:fixed;
+	color:#111111;
+	white-space: nowrap;
+	display:inline;
+	text-shadow: 2px 2px 1px #CCC;
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	font-size:1.0em;
+}
+.bubbleword.phase1
+{
+	-moz-transform: 	scale(0.1);
+	-webkit-transform: 	scale(0.1);
+	-o-transform: 		scale(0.1);
+	-ms-transform: 		scale(0.1);
+	transform: 			scale(0.1);
+
+	opacity:0.0;
+}
+.bubbleword.phase1.phase2
+{
+	-moz-transform: 	scale(1.0);
+	-webkit-transform: 	scale(1.0);
+	-o-transform: 		scale(1.0);
+	-ms-transform: 		scale(1.0);
+	transform: 			scale(1.0);
+
+	-moz-transition: 	all 250ms;
+	-webkit-transition: all 250ms;
+	-o-transition: 		all 250ms;
+	-ms-transition: 	all 250ms;
+	transition: 		all 250ms;
+
+	opacity:1.0;
+}
+.bubbleword.phase1.phase2.phase3
+{
+	-moz-transform: 	scale(2.0);
+	-webkit-transform: 	scale(2.0);
+	-o-transform: 		scale(2.0);
+	-ms-transform: 		scale(2.0);
+	transform: 			scale(2.0);
+
+	-moz-transition: 	all 2000ms;
+	-webkit-transition: all 2000ms;
+	-o-transition: 		all 2000ms;
+	-ms-transition: 	all 2000ms;
+	transition: 		all 2000ms;
+
+	opacity:0.0;
+}
+#bubblecalc
+{
+	visibility:hidden;
+}
+#catblinker
+{
+	position:fixed;
+	width:100%;
+	top:0px;
+	left:0px;
+	font-size:20pt;
+	text-align:center;
+	vertical-align:bottom;
+	padding-bottom:20px;
+}
+#catblinker td
+{
+	font-size:20pt;
+	text-align:center;
+	vertical-align:bottom;
+	padding-bottom:20px;
+	opacity:0.0;
+	font-weight:bold;
+	font-variant: small-caps;
+	overflow:hidden;
+	color:#FFFFFF;
+	text-shadow: -2px -2px 10px #333, 2px 2px 10px #333;
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	
+}
+
+dfn
+{
+	border-bottom: 1px dotted black;
+}
+
+#introtext
+{
+	display:none;
+	position: fixed;
+	width: 640px;
+	height: 400px;
+	background-color: rgba(200,200,200,0.9);
+	border-radius: 20px;
+	padding:20px;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	z-index:3;
+	font-size: 16pt;
+}
+#introtext > div
+{
+	display:none;
+	margin-bottom:20px;
+}
+#introtext td
+{
+	padding:5px;
+}
+#introtext h2
+{
+	text-shadow: -2px -2px 10px #FFF, 2px 2px 10px #FFF;
+	font-size:1.5em;
+	font-weight:bold;
+}
+#introtext h3
+{
+	font-style:italic;
+	font-size:0.9em;
+}
+#introtext p
+{
+	text-align:left;
+	margin-bottom:10px;
+}
+#introtext li
+{
+	list-style: square outside;
+	text-align:left;
+	padding-left:10px;
+	margin-left:20px;
+	vertical-align:top;
+	margin-bottom:5px;
+}
+#demostart { fonz-size:1.4em; font-weight:bold; box-shadow: 10px 10px 20px green; }
+#freestylestart { fonz-size:1.4em; font-weight:bold; box-shadow: 10px 10px 20px yellow; }
+#soundready { background-color: #82FA58; }
+#nosound { background-color: #FA5858; }
+.button
+{
+	padding:10px;
+	background-color:#81BEF7;
+	border:1px solid #333;
+	box-shadow: 5px 5px 3px #222;
+	border-radius:5px;
+	cursor:pointer;
+	display:inline-block;
+	margin: 2px 10px 2px 10px;
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.button:hover
+{
+	background-color:#58ACFA;
+}
+.button:active
+{
+	margin: 4px 8px 0px 12px;
+	box-shadow: 3px 3px 3px #222;
+}
+.butcont
+{
+	text-align:center;
+}
+#countdown
+{
+	display:none;
+	position: fixed;
+	width: 300px;
+	height: 300px;
+	text-align:center;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	font-size: 300px;
+}
+#bigmessagecont
+{
+	display:none;
+	position: fixed;
+	width:100%;
+	text-align:center;
+	bottom: 100px;
+	z-index:42;
+}
+@-moz-keyframes movingshadow {
+  0%   { box-shadow: 10px 10px 20px green; }
+  25%   { box-shadow: -10px 10px 20px green; }
+  50%   { box-shadow: -10px -10px 20px green; }
+  75%   { box-shadow: 10px -10px 20px green; }
+  100%   { box-shadow: 10px 10px 20px green; }
+}
+@-webkit-keyframes movingshadow {
+  0%   { box-shadow: 10px 10px 20px green; }
+  25%   { box-shadow: -10px 10px 20px green; }
+  50%   { box-shadow: -10px -10px 20px green; }
+  75%   { box-shadow: 10px -10px 20px green; }
+  100%   { box-shadow: 10px 10px 20px green; }
+}
+@-o-keyframes movingshadow {
+  0%   { box-shadow: 10px 10px 20px green; }
+  25%   { box-shadow: -10px 10px 20px green; }
+  50%   { box-shadow: -10px -10px 20px green; }
+  75%   { box-shadow: 10px -10px 20px green; }
+  100%   { box-shadow: 10px 10px 20px green; }
+}
+@keyframes movingshadow {
+  0%   { box-shadow: 10px 10px 20px green; }
+  25%   { box-shadow: -10px 10px 20px green; }
+  50%   { box-shadow: -10px -10px 20px green; }
+  75%   { box-shadow: 10px -10px 20px green; }
+  100%   { box-shadow: 10px 10px 20px green; }
+}
+#bigmessage
+{
+	display:inline-block;
+	text-align:center;
+	width:80%;
+	font-size: 32pt;
+	font-weight:bold;
+	background-color:rgba(200,200,200,0.5);
+	padding:10px;
+	box-shadow: 10px 10px 20px green, -10px -10px 20px green;
+	border-radius: 20px;
+	-webkit-animation:         movingshadow 2s infinite;
+	-moz-animation:         movingshadow 2s infinite;
+	-o-animation:         movingshadow 2s infinite;
+	animation:         movingshadow 2s infinite;
+}
+#loadingstatus
+{
+	font-style:italic;
+	color:#FF0000;
+}
+</style>
+<script src="jquery-1.11.0.min.js"></script>
+<script>
+//zunaechst ein kleiner Kodierer! relevante Themen: Zahlensysteme & Binaere Operationen
+keywordcoder = {
+    alphabet : "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_",
+	getCodeFromNumber : function(zahl){
+		if (isNaN(Number(zahl)) || zahl === null || zahl === Number.POSITIVE_INFINITY || zahl < 0) return ""; //Fehler
+		var stelle; 
+		var rest = Math.floor(zahl);
+		var code = "";
+		while (true)
+		{
+			stelle = rest % 64
+			code = this.alphabet.charAt(stelle) + code;
+			rest = Math.floor(rest / 64);
+			if (rest == 0) break;
+		}
+		while (code.length < 4) code = this.alphabet.charAt(0) + code //hardcoded auf 4 Stellen auffuellen
+		if (code.length > 4) return ""; //Overflow
+		return code;
+	},
+	getNumberFromCode : function(code){
+		var zahl =         1* this.alphabet.indexOf(code.charAt(3));
+			zahl +=       64* this.alphabet.indexOf(code.charAt(2));
+			zahl +=    64*64* this.alphabet.indexOf(code.charAt(1));
+			zahl += 64*64*64* this.alphabet.indexOf(code.charAt(0));
+		return zahl;
+	},
+	getNumberFromPair : function(zeit,taste){
+		return number = Math.min((Math.floor(zeit) << 5) + taste, (64*64*64*64-1));
+	},
+	getPairFromNumber : function(zahl){
+		return {t:(zahl >> 5),c:(zahl & (32-1))};
+	},
+	encodeSong : function(songarray)
+	{
+		var songcode = "";
+		songarray.forEach(function(element)
+		{
+			songcode += keywordcoder.getCodeFromNumber(keywordcoder.getNumberFromPair(element.t,element.c));
+		});
+		return songcode;
+	},
+	decodeSong : function(songcode)
+	{
+		var songarray = new Array();
+		for (var i = 0; i < songcode.length; i+=4)
+		{
+			var codeteil = songcode.substring(i,i+4);
+			var nummer = this.getNumberFromCode(codeteil);
+			var element = this.getPairFromNumber(nummer);
+			songarray.push(element);
+		}
+		return songarray;
+	}
+};
+//das haetten wir, los geht's mit ein "paar" Variablen
+song_encoded = "08_W0Gt00N_W0VlW0Zd10h_10pdX0xVX16d21EF21M721Td21XVZ1ed31md31uF323742Al42Il42QF42T_52bV52it52ql530N037N13E_23N733Ud43cF53gF43jt33nt23rl13vd04N724NV34Nt44sF04sd14stY5Kl15Kt25LFa5S705SN15Sl35ZNX5ZV25Z_45eN35hl25lN15otW5sl55-N561_065l56Dl56H716Ot36Wl26d_46ll06ocb6wt56_F072l579_b7DkX7Lt27TF47WkZ7a727dl17h-W7mEY7qEb7tsY7xcW7_MY837587EY8AUX8Esa8Isb8N6a8REX8Usa8Ycb8c748fd08jUY8nR58rEY8usW8ysY90kb94MY986X9B-Z9Fka9Jd39N6X9Q-Z9VN49YsZ9ciW9gUb9kN49nkY9rkW9vcb9zcaA1UYA4sXA8sYACsZAGcaAKUXAOF2ARkZAVsaAZMWAd75AgsZAk-YAoMWAsMbAwUZA-UYB1kXB2N2B2caBGsYBGu3BHN5BX6WBZV1BaMYBbsZBd6aBe-XBgcZBiMYBisZBkEXBm6bBoEbBqkZBrl2BssZBtsbBxsaBykZBzkYB_6XC4EXC4FYC5MXC6-aC8kZC9cXCBEYCE6WCIcYCKUXCMMZCQEZCRt2CScXCUsWCYUXCZUYCbU3CdF4CfEYCf-aChEXCjMbCk-bCnUZCof2CpkZCr6bCusaCvkZCwUYCxa1C-EXD0EWD1EXD2V0D3-aD5k3D6UXD8N2DAEYDBk0DDMZDFkYDHc1DI-3DL61DN6ZDP62DPkbDR-0DRV2DUkZDYcYDb-3Df-2DjkZDnc2Dqs3Duc1DyUbE0cYE3-5E7-1EC6bEF-2EJs5ELk0EOc1ES6YEVU3EZM4Ec-1EgU2Ek63En-4Es6bEvc3EzU5F1U3F3s0F5s5F9U3FDM5FH63FJE1FKk0FOc1FS62FWE3FZk4FdU3FhM2Fk-3FpI1FsU2FwM3F-M4G2U5G5-4G9sZGEE2GFs1GH-0GLc1GPc2GSc3GWc4Gak3Gek2GiU4Gkk2Gm-XG-s3H162HFU0HFU1HFU2HFU3HFU4HFU5    L3LWL3MYL6zXL6-ZLAk2LAl4LETZLEUbLIDWLIEYLM5XLM6ZLPrYLPsaLTDZLTLbLX5XLXDbLb5YLb6bLe-3Le-bLibaLicbLmjXLmzbLqk2LqkbLubZLucbLxraLxsbL_s0L_tYM3LXM3N3M6_YM714MBDZMBEbMF5WMF72MIs3MIt5MMbWMMzZMQLZMQMbMUTWMUUbMYDWMYEaMbjWMbkZMfjWMfkYMjTWMjUbMnDaMnLWMr5ZMrDWMujWMuk2MyDWNO5XNOjYNhLZNhc2NhjaNlTYNlV3NmDaNmF5Npz2Nq-aNq_bNv5aNvD3N-LWO2D0O5r5O9D0OCrbOGMWOLD5OMLWOMzXOOzYOQj3OW51OY52OYr5Oc50Oe51Ofr2Ol51Omb4OnDbOo54Op53Osj0Owr5O-L0P2LbP5T0P9j5PDb0PH55PJ50PKD1PM52PNr3PSr2PV53PVzbPYb0Par1Pcr2PiD1Pj6aPk55Pkz4Pmz3Poj2PqT0Ptb5Pxr1Pxs2P_b5Q3D0Q6j5QAT1QAU2QEDbQID1QKLYQPr1QRr3QSr4QVkWQYL2QYcXQab3QfL2QgL1Qhb4Qij5Qjr4Qn50QrDbQuT0QyL5Q_z0R3j5R7D0RBD5REr1RGj2RN53RPD4RPz5RSz1RUzYRWr3Rbr1Rcz4Rdj3Reb2RgD5RhT4RiT2RkT0RkT1RkT2RkT3RkT4RkT5RkT0RkT1RkT2RkT3RkT4RkT5RkT0RkT1RkT2RkT3RkT4RkT5RkT0RkT1RkT2RkT3RkT4RkT5RkT0RkT1RkT2RkT3RkT4RkT5RkT0RkT1RkT2RkT3RkT4RkT5";
+//das Enigma! ;)
+song = keywordcoder.decodeSong(song_encoded);
+song_cursor = 0;
+song_max = song.length;
+categories = new Array();
+//ja, die Stichworte hab ich selbst zusammengeschrieben... *seufz*
+categories.push({name:"Web Engineering",keywords:"World Wide Web|ARPANET|Tim Berners-Lee|Mosaic Browser|Hypertext|Internet Engineering Task Force|W3C|Protocols|Services|Connectionless|Connection-oriented|Layer Model|Header &amp; Trailer Data|OSI model|Layer 8 problem|Application layer|Presentation layer|Session layer|Transport layer|Network layer|Data link layer|Physical layer|WiFi Security|Brute-force-attack|IP address|Classful networks|Classless Inter-Domain Routing|Variable-length subnet masking|Internet Assigned Numbers Authority|Bootstrap Protocol|Dynamic Host Configuration Protocol|IP translation|Ports|Firewall|SMTP|FTP|DNS|TCP/IP|HTTP|POP|IMAP|Telnet|NFS|Top-level domain|DENIC|Active mode|Passive mode|Client-server paradigm|Mail user agent|MX record|News groups|HTTP GET &amp; POST|HTTP status code|HTTP headers|Stateless protocols|Proxy caching|Content negotiation|Web server|Apache|Hyperlinks|DTD|HTML|ASCII|ANSI|URL|URI|URN|Query delimiter|Escape char|Fragment delimiter|SGML|XML|XHTML|CSS|HTML5 (yay!)|ACID tests|Document type tag|Element attributes|Self-closing tags|Non-functional requirements|Functional requirements|Quality of service|Relative vs. absolute paths|Raster graphics|Vector graphics|Postscript|Color depth|RGBA|CMYK|SVG|Lossless compression|Lossy compression|Image transparency|Image maps|Character encoding|ISO 8859-1|Windows-1252|Unicode|UTF8|Nested tables|Framesets|Form handling|Text formatting|Plugin architecture|Style selectors|Pseudoclasses|CSS Box Model|JavaScript|Browser wars|Dynamic typing|Design by Contract|Graceful degradation|eval() is evil|HTML DOM|Inheritance by prototyping|Event handlers|Cookie concept|AJAX".split("|")});
+categories.push({name:"Lineare Algebra",keywords:"Mengenlehre|Russel'sche Antinomie|Komprehensionsprinzip|Leere Menge|Potenzmenge|Bild-Menge|Echte Teilmenge|Differenzmenge|Kartesisches Produkt|Domain &amp; Range|Identische Relation|Inverse Relation|Reflexive Relation|Symmetrisch vs. Antisymmetrisch|Rechts-eindeutig|Links-eindeutig|Rechts-total|Links-total|Injektive Abbildung|Bijektive Abbildung|Surjektive Abbildung|Transitiver Abschluss|&Auml;quivalenz-Klasse|Quotienten-Raum|Partitionen|Partielle Ordnung|Abgeschlossene Gruppe|Linksneutrales Element|Unterhalbgruppe|Permutationsgruppe|Nebenklasse|Faktorgruppe|Kommutativer Ring|Kongruenzrelation|Operationsvertr&auml;glichkeit|Komplexe Zahlen|Polarform|Primitive Einheitswurzel|Cardanische Formel|Satz von de Moivre|K-Vektorr&auml;ume|Linearkombination|Skalarmultiplikation|Erzeugenden-System|Basis-Austausch-Satz|Lineare Abbildung|Endlich dimensional|Epimorphismus|Isomorphismus|Automorphismus|Matrizenaddition|Kronecker-Delta|Einheitsmatrix|Determinantenbestimmung|Elementare Transposition|Berechnung des Signum|Leibnizformel|Multilinearit&auml;t|Eigenwertbestimmung|charakteristisches Polynom|Diagonalisierbarkeit|Rekurrenzgleichung".split("|")});
+categories.push({name:"BWL",keywords:"Angebot &amp; Nachfrage|Beschaffungsmarkt|Planwirtschaft|Freie Marktwirtschaft|Soziale Marktwirtschaft|Erweiterter Wirtschaftskreislauf|Bed&uuml;rfnispyramide nach Maslow|Homo oeconomicus|Maximumprinzip|Minimumprinzip|Extremumprinzip|Origin&auml;re Produktionsfaktoren|Derivative Produktionsfaktoren|Nutzentheorie|Gossen'sche Gesetze|Indifferenzkurve|Grenznutzen|Budgetgerade|Haushaltsoptimum|Oberziele|Unternehmungsgewinn|Diskontierte Einnahmen|Zielhierarchie|Gesamtkapitalrendite|Divisionale Organisation|Gegenstromverfahren|Management by Objectives|Management by Exception|Soll-Ist-Vergleich|Marketingorientierung|Produktorientierung|Verkaufsorientierung|Gesellschaftsorientierung|Corporate Identity|Corporate Behavior|Eskalationsverhalten|Open door principle|Corporate Design|Marketingmix|Gap-Analyse|Makroumwelt|Mikroumwelt|Integrierte Marketingkonzepte|Absatzpotential|Marktvolumen|Marktforschung|Vollerhebung|willk&uuml;rliche Teilerhebung|repr&auml;sentative Quotenauswahl|Prim&auml;rforschung|Sekund&auml;rforschung|Produktlebenszyklus|Marktwachstums-Marktanteils-Portfolio|strategische Gesch&auml;ftseinheit|Question marks|Poor dogs|Cash cow|Desinvestitionsstrategie|Absch&ouml;pfungsstrategie|Produktdiversifikation|Produktdifferenzierung|Produktfortschreibung|Produktmix: Breite, L&auml;nge, Tiefe|Sekund&auml;rdienstleistungen|Kontrahierungspolitik|Skimming-Strategie|Qualit&auml;tsf&uuml;hrerschaft|Teilkostenrechnung|Konsumentenrente|Zeitlich gestaffelte Preisdifferenzierung|Leitpreisunterbietung|Absatzkredit|Pr&auml;mienstrategie|Promotionspreispolitik|Inkassoreisende|Provision &amp; Fixum|Franchisor|Indirekter Absatz|Kommunikationspolitik|Werbetr&auml;ger|Streugebiet &amp; Streukreis|Verbundwerbung|Vergessenskurve|Aperzeptionszahl|Salespromotion|Public-Relations|permanente Inventur|Passivtausch|Aktiv-Passivmehrung|Verm&ouml;genskonten|Zusammengesetzter Buchungssatz|Schlussbilanzkonto|Gewinn- und Verlustrechnung|Aufwandskonten|Kontenrahmen|Doppelte Buchf&uuml;hrung|Verbindlichkeiten a.L.u.L.|Umsatzsteuer|Vorsteuerkonto|Passivierung der Zahllast|Unterlassungsalternative|Kostenvergleichsrechnung|kritische Ausbringungsmenge|Rentabilit&auml;tsrechnung|Amortisationsrechnung|Dynamische Investitionsrechnung|interner Kalkulationszinsfuß|Kapitalwertmethode".split("|")});
+categories.push({name:"Digital&shy;technik",keywords:"Bin&auml;rkodierung|2-er-Komplement|Zahlenkreis|Basisnotationen|BCD-System|Bits, Nibbles, Bytes|Words &amp; Doublewords|Register|&Uuml;berlauf|Elementargatter|Negation|Konjunktion|Disjunktion|Inverter|Antivalenz|De Morgansche Regeln|Distributive Normalform|Konjunktive Normalform|Karnaugh-Veitch-Tafel|Don't-care-Terme|Pseudozust&auml;nde|A/D-Wandler|W&auml;geverfahren|Parallelwandler|Dual-Slope-Verfahren|S&auml;gezahngenerator|D/A-Wandler|Operationsverst&auml;rker|Spannungskennlinie|Stromspiegel|Spannungsr&uuml;ckkopplung|Stromgegenkopplung|Virtueller Kurzschluss|Integrator|Differenzierer|Schwellwertschalter|Schmitt-Trigger|RESET-Schaltung|Open-Collector-Ausgang|Wired-AND/OR-Schaltung|Resistor Diode Logic|Bipolarer Transistor|Diode Transistor Logic|Bistabile Kippschaltung|T-Flip-Flop als Frequenzteiler|D-Flip-Flop einzustandsgesteuert|Positiv tankflankengesteuert|RS-Flip-Flop|Master-Slave-Aufbau|JK-Flip-FLop (retardiert)|Datenregister|Asynchroner Dualz&auml;hler|Synchroner Modulo-8-Z&auml;hler|Parallel-Serien-Wandler|Serien-Parallel-Wandler|Schieberegister|Taktzyklus|Kodierer|Datenselektor|Priorit&auml;ts-Kodierer|Multiplexsystem|Wahrheitstabelle|Kondensator|Tristate-Gatter|Pullup-Widerstand|Pulldown-Widerstand|BUS-Systeme".split("|")});
+categories.push({name:"Gesch&auml;fts&shy;prozesse",keywords:"Aufbauorganisation|Ablauforganisation|Systemkonfiguration|Gesch&auml;ftsprozess|Wertsch&ouml;pfung|Globalisierung|Funktionale Teilung|Reaktionszeiten|Qualit&auml;tsverbesserung|Kundenzufriedenheit|Kostensenkung|Motivationsverbesserung|Ist-Erfassung|Schwachstellenanalyse|Sollkonzept|M&auml;ngelquantifizierung|Informationstechnik|Arbeitsablauf|Flache Hierarchie|Dezentralisierung|Informationssystem|Anwendungssystem|Vernetztes Unternehmen|E-Commerce|Topmanagement|Mittleres Management|Operative Aufgaben|Weisungsbefugnisse|Managementbezogene Verm&ouml;genswerte|Soziale Verm&ouml;genswerte|Wertsch&ouml;fpungskettenmodell|Mass customization|Virtuelle Unternehmen|Strategische InfoSys|Wertsch&ouml;pfungsnetz|Differenzierungsstrategie|Efficient consumer response|Switching costs|Warenloses Lager|Just-in-time-Lieferung|5-Forces-Model|Aufgabenanalyse|Aufgabensynthese|Stellenbildung|Stellenbeschreibung|Zentralisation|Profit Center|Organigramm|Einliniensystem|Mehrliniensystem|Stabliniensystem|Spartenorganisation|Matrixorganisation|Informelle Organisation|Ablaufdiagramm|Taylor-Prinzip|Z&auml;hler-Management|Nenner-Management|Business Reengineering|Regelkreis|Prozesskennzahlen|St&auml;rken-/Schw&auml;chenanalyse|Prozesscontrolling|Ereignisgesteuerte Prozesskette|EEPK|Relationales Datenmodell|Tupel, Entit&auml;t, Attribut|Prim&auml;rschl&uuml;ssel|Sekund&auml;rschl&uuml;ssel|Fremdschl&uuml;ssel|Entity-Relationship-Modell|Chen Notation|Beziehungskardinalit&auml;ten|1., 2., 3. Normalform|Datenredundanz|Dateninkonsistenz|Atomare Werte|Transitive Abh&auml;ngigkeit".split("|")});
+categories.push({name:"Grundlagen & Logik",keywords:"Knowledge of facts|Procedural knowledge|Data processing|Datum &amp; Data|Unique message|Inconsistent message|Static knowledge|Analog &amp; digital signals|Token, code, alphabet|Binary, octal, hexadecimal|Information processing|Data transformation|Data structuring|Data representation|Semiotics|Syntax|Semantics|Pragmatics|Data transmission|Models|Specification|Verification|Validation|Control System|Adjustment Control|Open system|Closed system|Dynamic system|Static system|System boundary|System environment|System interfaces|Blackbox view|Whitebox view|Numerical system|Process control system|Embedded systems|Adaptive systems|Simulation|Prototyping|V-Model|ITIL|Sequential execution|Parallel execution|Conditional execution|Looped execution|Sub-algorithms|Deterministic algorithm|Von-Neumann-Computer|Semi-Thue-Systems|Meta-rules|Markov algorithms|Stop-rules|Formal systems|Chomsky grammar|Terminals|Non-terminals|Productions|Formal language|Chomsky types|Unrestricted grammar|Context sensitive grammar|Context free grammar|Regular Expressions|Backus-Naur-Form|Extended-Backus-Naur-Form|Syntax diagrams|Semigroups, monoids, groups|Cartesian product|Homogenous relation|Directed graph|Nodes &amp; Edges|Symmetric relation|Transitive relation|Reflexive relation|Inverse directed graph|General graph|Successor degree|Predecessor degree|Complete graph|Planar graph|Trivial graph|Paths &amp; Semipaths|Spanning path|Cycles &amp; Simple Cycles|Eulerpath &amp; Eulercircle|Connected graph|Strongly connected|One-sided connected|Weakly connected|Euler theorem|Tree VS. Forest|Bipartited graph|Marked graph|Network diagrams|Roots &amp; Leaves|Adjacency matrix|Adjacency list|Composition of relations|Path length|Transitive reflexive hull|Floyd-Warshall-Algorithm|All shortest path problem|Kantorovich trees|Partial order relations|Equivalence relation|Hasse diagrams|Propositional logic|Assertion VS. Proposition|Well formed formula|Logical connectives|Truth tables|Interpretation of formulas|Satisfiable model|Non-satisfiable model|Tautology|Boolean Algebra|Law of absorption|Complement law|Idempotence law|De Morgan|Modularity|Logical conclusion|Premises|Logical calculus|Proof VS. Axiom|Normal forms|Predicate logic|Universal quantifier|Existential quantifier|Bound vs. free variables|Prenex normal form".split("|")});
+dont_repeat_for_x = 42;
+lastwords = new Array();
+lastwords_idx = -1;
+for(var i = 0; i<dont_repeat_for_x; i++) lastwords.push("");
+nextbubble_top = 0;
+nextbubble_left = 0;
+nextbubble_width = 0;
+nextbubble_height = 0;
+audiotag = 0;
+looptag = 0;
+t_start = 0;
+recording = new Array();
+player = 0;
+freestyle = 0;
+hasfullyloaded = 0;
+
+//...und nun der Rest vom Fest... eigentlich ist fuer jeden was dabei: Schleifen, Funktionen, Closure, externe Libraries und ein Hauch von OO
+
+function randword(catidx)
+{
+	var word = lastwords[0];
+	while ($.inArray(word,lastwords)>=0)
+	{
+		if (catidx<0 || catidx>categories.length) catidx = parseInt(categories.length*Math.random());
+		word = categories[catidx].keywords[parseInt(categories[catidx].keywords.length*Math.random())];
+	}
+	lastwords_idx = (lastwords_idx+1) % dont_repeat_for_x;
+	lastwords[lastwords_idx] = word;
+	return {word:word,categoryindex:catidx};
+}
+
+function calc_new_bubble_pos(word)
+{
+	$("#bubblecalc").html(word);
+	nextbubble_width = $("#bubblecalc").width();
+	nextbubble_height = $("#bubblecalc").height();
+	nextbubble_top = ($(window).height()-nextbubble_height-100)*Math.random();
+	nextbubble_left = ($(window).width()-nextbubble_width-100)*Math.random()+50;
+}
+
+function bubbleword(word)
+{
+	calc_new_bubble_pos(word);
+	var bubw = nextbubble_width;
+	var bubh = nextbubble_height;
+	var bubble = $("<div class=\"bubbleword phase1\" style=\"top:"+nextbubble_top+"px;left:"+nextbubble_left+"px;\">"+word+"</div>");
+	bubble.appendTo("body");
+	setTimeout(function(){bubble.addClass("phase2");},10);
+	setTimeout(function(){bubble.addClass("phase3");},250);
+	setTimeout(function(){bubble.remove();},3000);
+}
+	
+function catclick(caller)
+{
+	return; //deactivated
+	var catidx = parseInt(caller.substring(caller.length-1));
+	cathighlight(catidx);
+}
+
+function catblinker_fill()
+{
+	var bgchose = ["#FF8000","#FFFF00","#00FF80","#00BFFF","#FF0040","#BFFF00"];
+	$("#catblinker").empty();
+	$("#catblinker").append($("<tr id=\"catblinkerrow\"></tr>"));
+	for (var i = 0; i<categories.length; i++)
+	{
+		$("#catblinkerrow").append($("<td/>",{
+			id: "catcell"+i,
+			css:{
+				"background-color":bgchose[i],
+			}
+		}).html(categories[i].name)
+		.bind("click",function(){catclick(this.id);})
+		);
+	}
+}
+
+function cathighlight(catidx)
+{
+	$("#catcell"+catidx).stop().clearQueue()
+	  .animate({"opacity":1.0,
+				},{duration:100,easing:"swing"})
+	  .animate({"opacity":0.0,
+				},{duration:800,easing:"swing"});
+}
+
+function preloadsongs()
+{
+	audiotag = document.getElementById("goodmusic");
+	audiotag.play();
+	setTimeout(audiotag.pause.bind(audiotag), 10);
+	looptag = document.getElementById("testmusic");
+	looptag.play();
+	setTimeout(looptag.pause.bind(looptag), 10);
+}
+function startsong()
+{
+	recording = new Array();
+	song_cursor = 0;
+	t_start = performance.now();
+	audiotag.play();
+}
+function stopsong()
+{
+	audiotag.pause();
+	clearInterval(player);
+}
+function playsong()
+{
+	startsong();
+	player = setInterval(playloop,20);
+	setTimeout(function(){$("#bigmessage").html("Let's get ready for a SOLO!");$("#bigmessagecont").fadeIn(1000);},87000);
+	setTimeout(function(){$("#bigmessagecont").fadeOut(1000);},95000);
+	setTimeout(function(){$("#bigmessage").html("Du bist dran, mach dich bereit, spiel das Piano mit den Tasten 1-6! BE READY IN...");$("#bigmessagecont").fadeIn(1000);},130000);
+	setTimeout(function(){$("#countdown").html("10");$("#countdown").show();},136000);
+	setTimeout(function(){$("#countdown").html("9");},136500);
+	setTimeout(function(){$("#countdown").html("8");},137000);
+	setTimeout(function(){$("#countdown").html("7");},137500);
+	setTimeout(function(){$("#countdown").html("6");},138000);
+	setTimeout(function(){$("#countdown").html("5");},138500);
+	setTimeout(function(){$("#countdown").html("4");},139000);
+	setTimeout(function(){$("#countdown").html("3");},139500);
+	setTimeout(function(){$("#countdown").html("2");},140000);
+	setTimeout(function(){$("#countdown").html("1");},140500);
+	setTimeout(function(){$("#countdown").html("GO!");},141000);
+	setTimeout(function(){$("#countdown").hide();},142000);
+	setTimeout(function(){$("#bigmessagecont").fadeOut(1000);},139000);
+	setTimeout(function(){$("#bigmessage").html("...und jetzt zusammen...");$("#bigmessagecont").fadeIn(1000);},170000);
+	setTimeout(function(){$("#bigmessagecont").fadeOut(1000);},177000);
+	setTimeout(function(){$("#bigmessage").html("You rock :)<br>Let me take it from here...");$("#bigmessagecont").fadeIn(1000);},186000);
+	setTimeout(function(){$("#bigmessagecont").fadeOut(1000);},194000);
+	setTimeout(function(){$("#bigmessage").html("Danke f&uuml;rs zuh&ouml;ren und zuschauen!");$("#bigmessagecont").fadeIn(1000);},227000);
+	setTimeout(function(){$("#freestylestart").show();$("#bigmessagecont").fadeOut(3000);},230000);
+	setTimeout(function(){$("#introtext").slideDown(1000);},231000);
+}
+function freestylesong()
+{
+	startsong();
+	freestyle = 1;
+	setTimeout(function(){$("#bigmessage").html("Danke f&uuml;rs mitmachen!");$("#bigmessagecont").fadeIn(1000);},227000);
+	setTimeout(function(){$("#bigmessagecont").fadeOut(3000);},230000);
+	setTimeout(function(){$("#introtext").slideDown(1000);},231000);
+}
+function t_curr()
+{
+	return Math.floor(performance.now()-t_start);
+}
+function outrecording()
+{
+	prompt("Deine Aufnahme:",keywordcoder.encodeSong(recording));
+}
+function playloop()
+{
+	if (song_cursor>=song_max)
+	{
+		clearInterval(player);
+		return;
+	}
+	
+	while (typeof(song[song_cursor].t) !== "undefined" && t_curr()+100 >= song[song_cursor].t)
+	{
+		var nextword = randword(song[song_cursor].c);
+		bubbleword(nextword.word);
+		cathighlight(song[song_cursor].c);
+		song_cursor++;
+	}
+}
+function icanhazplaythrough()
+{
+	$("#loadingstatus").hide();
+	hasfullyloaded = 1;
+}
+
+$( document ).ready(function() {
+
+	catblinker_fill();
+
+	$(document).keydown(function(event){
+		var t_rec = t_curr();
+		
+		var catidx = -1;
+		var keytext = String.fromCharCode(event.keyCode);
+		if (parseInt(keytext)>=1 && parseInt(keytext)<=categories.length)
+			catidx = parseInt(keytext)-1;
+		else if(keytext==" ")
+			catidx = -1;
+		else
+		{
+			/*
+			if(keytext=="S")
+				startsong();
+			else if(keytext=="R")
+				outrecording();
+			else if(keytext=="P")
+				playsong();
+			else if(keytext=="H")
+				stopsong();
+			return;
+			*/
+		}
+		
+		if ((t_rec < 140000 || t_rec > 188000) && !freestyle) return; //2:20-3:07
+		
+		recording.push({t:t_rec,c:catidx});
+		
+		var nextword = randword(catidx);
+		bubbleword(nextword.word);
+		cathighlight(nextword.categoryindex);
+	});
+	
+	
+	$(window).resize(function(){
+		$("#catblinker").height($(window).height());
+		var newwidth = parseInt($(window).width()/categories.length)+1;
+		$("#catblinkerrow td").each(function(index){
+			$(this).width(newwidth).css("max-width",newwidth+"px");
+		});
+	});
+	$(window).resize();
+	preloadsongs();
+	
+	$("#introtext").fadeIn(1000);
+	$("#intro1").fadeIn(1000);
+	$("#antwort").click(function(){
+		$(this).hide();
+		$("#antwortzeile").css('visibility','visible').hide().fadeIn(500,function(){
+			$("#introtitle").delay(1000).fadeIn(2000);
+			$("#intro2").delay(3000).fadeIn(2000);
+		});
+	});
+	$("#weiter").click(function(){
+		$(this).hide();
+		$("#intro1").slideUp(1000);
+		$("#intro2").slideUp(1000);
+		$("#intro3").delay(1500).fadeIn(1000);
+		$("#intro4").delay(1500).fadeIn(1000);
+	});
+	$("#soundcheck").click(function(){
+		$("#intro4").hide();
+		$("#intro5").fadeIn(500);
+		looptag.play();
+	});
+	$("#nosound").click(function(){
+		alert("Sorry, aber ohne Ton macht diese Demo keinen Sinn. Stelle bitte sicher, dass die Lautsprecher an sind und dein Browser den Anforderungen entspricht!");
+	});
+	$("#soundready").click(function(){
+		looptag.pause();
+		$("#freestylestart").hide();
+		$("#intro5").hide();
+		$("#intro3").slideUp(500);
+		$("#intro6").fadeIn(500);
+	});
+	$("#demostart").click(function(){
+		if (!hasfullyloaded && !confirm("Audiodaten noch nicht komplett geladen, Synchronizationsprobleme riskieren und trotzdem schon starten?")) return;
+		freestyle = 0;
+		$("#introtext").slideUp(1000);
+		setTimeout(function(){$("#introdanke").hide();$("#countdown").html("3");$("#countdown").show();},2000);
+		setTimeout(function(){$("#countdown").html("2");},2500);
+		setTimeout(function(){$("#countdown").html("1");playsong();},3000);
+		setTimeout(function(){$("#countdown").hide();},3500);
+	});
+	$("#freestylestart").click(function(){
+		if (!hasfullyloaded && !confirm("Audiodaten noch nicht komplett geladen, Synchronizationsprobleme riskieren und trotzdem schon starten?")) return;
+		freestyle = 0;
+		$("#introtext").slideUp(1000);
+		setTimeout(function(){$("#bigmessage").html("Steuerung: Taste 1-6 :)");$("#bigmessagecont").fadeIn(1000);},500);
+		setTimeout(function(){$("#bigmessagecont").fadeOut(1000);},6000);
+		setTimeout(function(){$("#countdown").html("3");$("#countdown").show();},5000);
+		setTimeout(function(){$("#countdown").html("2");},5500);
+		setTimeout(function(){$("#countdown").html("1");freestylesong();},6000);
+		setTimeout(function(){$("#countdown").html("GO");},6500);
+		setTimeout(function(){$("#countdown").hide();},7000);
+	});
+	
+});
+
+</script>
+</head>
+<body>
+<h1 id="infotitle">KeyWordPiano "TINF13AIBC@WS2013@DHBW-MA" - An experiment in Text&amp;Sound (fully powered by CSS3, &lt;audio&gt; and a bit of jQuery)</h1>
+<div class="bubbleword" id="bubblecalc"></div>
+<table id="catblinker"></table>
+<div id="introtext">
+	<div id="intro1">
+		<table>
+		<tr><td><b>Frage:</b></td><td><i>Wie bew&auml;ltigt ein dualer Angewandter-Informatik-Student sein <dfn title="[aus dramaturgischen Gr&uuml;nden &uuml;berspitzt dargestellt]">&quot;Erstsemestertrauma&quot;</dfn>?</i></td></tr>
+		<tr><td></td><td><div id="antwort" class="button">Antwort</div></td></tr>
+		<tr id="antwortzeile" style="visibility:hidden;"><td><b>Antwort:</b></td><td>Er verarbeitet das Gelernte kreativ und programmatisch zu einem Haufen Code:</td></tr>
+		</table>
+	</div>
+	<div id="introtitle">
+		<h2>KeyWordPiano</h2>
+		<h3>Eine Effekteshow in Text &amp; Ton</h3>
+	</div>
+	<div id="intro2">
+		<p>
+		Da Stichwortwolken oder <i>&quot;word clouds&quot;</i> ein alter Hut sind, variieren wir das ganze doch einfach ein bisschen zum <b>Stichwortklavier</b>.<br>Spielt sich fast von allein!
+		</p>
+		<p>
+		Falls du auch AI studierst, kannst du ja mal schauen, wie viele der folgenden Begriffe du auf Anhieb noch erklären könntest, und falls nicht, dann genie&szlig; einfach die Show ;)
+		</p>
+		<div class="butcont"><div id="weiter" class="button">Weiter</div></div>
+	</div>
+	<div id="intro3">
+		<p>
+		<b>Voraussetzungen:</b>
+		<ul>
+		<li>Ein <b>top-aktueller Browser</b> wie zum Beispiel:
+		<ul><li>Firefox 26</li><li>Chrome 31</li><li>Internet Explorer 11 <i><br>(...schockierend, aber die Kompatibilit&auml;t war Zufall...)</i></li></ul>
+		Das ist wirklich wichtig, denn hier werden ziemlich aktuelle Technologien benutzt.</li>
+		<li>Ein voll funktionsf&auml;higes H&ouml;rorgan und Spa&szlig; an Musik</li>
+		<li>Lautsprecher oder Kopfh&ouml;rer:<br>
+		</li>
+		</ul>
+		</p>
+	</div>
+	<div id="intro4">
+		<div class="butcont"><div id="soundcheck" class="button">Billige Soundcheck-Demodatei abspielen</div></div>
+	</div>
+	<div id="intro5">
+		<div class="butcont">
+			<div id="nosound" class="button">Nein, ich h&ouml;re gerade nichts</div>
+			<div id="soundready" class="button">Ich h&ouml;re was, mach endlich weiter!</div>
+		</div>
+	</div>
+	<div id="intro6">
+		<p id="introdanke">
+		Danke f&uuml;rs Durchhalten, nun kanns endlich losgehen, viel Spa&szlig;!<i> - Niko</i>
+		</p>
+		<table>
+			<tr><td><b>Demo:</b></td><td><i>KeyWordPiano &quot;TINF13AIBC an der DHBW Mannheim - Wintersemester 2013&quot;</i></td></tr>
+			<tr><td><b>Musik:</b></td><td><i>Professor Kliq - Plastic &amp; Flashing Lights</a><br>(<dfn title="Eigenabmischung ;)">Kooz-vs-n2code-Mix</dfn>)
+			<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img src="by-nc-sa_small.png"></a></td></tr>
+		</table>
+		<br>
+		<div id="loadingstatus">Das Audiofile l&auml;dt noch, warte bitte noch etwas...</div>
+		<div class="butcont">
+			<div id="demostart" class="button">SHOW STARTEN!</div><br>
+			<div id="freestylestart" class="button">&gt;&gt;&gt; FREESTYLE-MODE &lt;&lt;&lt;</div>
+		</div>
+	</div>
+</div>
+<div id="countdown"></div>
+<div id="bigmessagecont"><div id="bigmessage">Dies ist eine große Lorem ipsum Testnachricht mit hoffentlich auch mehreren Zeilen Text damit ich den Umbruch testen kann ;)</div></div>
+<audio id="goodmusic" preload="auto" autoplay="false" oncanplaythrough="icanhazplaythrough()">
+	<source src="flashinglights.ogg" type="audio/ogg">
+	<source src="flashinglights.mp3" type="audio/mpeg">
+</audio>
+<audio id="testmusic" preload="auto" autoplay="false" loop="true">
+	<source src="testloop.ogg" type="audio/ogg">
+	<source src="testloop.mp3" type="audio/mpeg">
+</audio>
+</body>
+</html>

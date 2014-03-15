@@ -1,0 +1,62 @@
+Mengenlehre
+Russel'sche Antinomie
+Komprehensionsprinzip
+Leere Menge
+Potenzmenge
+Bild-Menge
+Echte Teilmenge
+Differenzmenge
+Kartesisches Produkt
+Domain & Range
+Identische Relation
+Inverse Relation
+Reflexive Relation
+Symmetrisch vs. Antisymmetrisch
+Rechts-eindeutig
+Links-eindeutig
+Rechts-total
+Links-total
+Injektive Abbildung
+Bijektive Abbildung
+Surjektive Abbildung
+Transitiver Abschluss
+Äquivalenz-Klasse
+Quotienten-Raum
+Partitionen
+Partielle Ordnung
+Abgeschlossene Gruppe
+Linksneutrales Element
+Unterhalbgruppe
+Permutationsgruppe
+Nebenklasse
+Faktorgruppe
+Kommutativer Ring
+Kongruenzrelation
+Operationsverträglichkeit
+Komplexe Zahlen
+Polarform
+Primitive Einheitswurzel
+Cardanische Formel
+Satz von de Moivre
+K-Vektorräume
+Linearkombination
+Skalarmultiplikation
+Erzeugenden-System
+Basis-Austausch-Satz
+Lineare Abbildung
+Endlich dimensional
+Epimorphismus
+Isomorphismus
+Automorphismus
+Matrizenaddition
+Kronecker-Delta
+Einheitsmatrix
+Determinantenbestimmung
+Elementare Transposition
+Berechnung des Signum
+Leibnizformel
+Multilinearität
+Eigenwertbestimmung
+charakteristisches Polynom
+Diagonalisierbarkeit
+Rekurrenzgleichung
